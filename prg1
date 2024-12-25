@@ -1,1 +1,59 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import binom, norm
 
+# Load Titanic dataset
+data = pd.read_csv('train.csv')
+
+# Fill missing values for Age
+data['Age'] = data['Age'].fillna(data['Age'].median())
+
+# 1. Probability
+# a. Calculating Simple Probabilities
+# Probability of survival
+p_survived = data['Survived'].mean()
+print(f"Probability of survival: {p_survived:.2f}")
+
+# Probability of survival for females
+female_survival = data[data['Sex'] == 'female']['Survived'].mean()
+print(f"Probability of survival for females: {female_survival:.2f}")
+
+# Joint probability: P(Survived | Pclass=1)
+class1_survival = data[data['Pclass'] == 1]['Survived'].mean()
+print(f"Probability of survival for 1st class passengers: {class1_survival:.2f}")
+
+# b. Applications of Probability Distributions
+# Binomial Distribution: Survival prediction
+n_passengers = len(data)
+success_rate = p_survived
+
+# Plotting the Binomial Distribution
+binomial_dist = binom(n=n_passengers, p=success_rate)
+x = np.arange(0, 150)  # Possible number of survivors
+y = binomial_dist.pmf(x)
+
+plt.figure(figsize=(8, 5))
+plt.bar(x, y, color='skyblue')
+plt.title("Binomial Distribution of Survival")
+plt.xlabel("Number of Survivors")
+plt.ylabel("Probability")
+plt.grid(axis='y')
+plt.show()
+
+# Normal Distribution: Age distribution
+ages = data['Age']
+mean_age = np.mean(ages)
+std_age = np.std(ages)
+
+# Plotting the Normal Distribution
+x = np.linspace(min(ages), max(ages), 100)
+y = norm.pdf(x, mean_age, std_age)
+
+plt.figure(figsize=(8, 5))
+plt.plot(x, y, color='green')
+plt.title("Normal Distribution of Passenger Age")
+plt.xlabel("Age")
+plt.ylabel("Probability Density")
+plt.grid(axis='y')
+plt.show()
