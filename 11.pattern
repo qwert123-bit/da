@@ -1,0 +1,16 @@
+<?php
+$rows = 5;
+
+for ($i = $rows; $i > 0; $i--) {
+    // Print spaces
+    for ($j = $rows - $i; $j > 0; $j--) {
+        echo " ";
+    }
+    // Print stars
+    for ($k = 0; $k < $i; $k++) {
+        echo "*";
+    }
+    // New line
+    echo "<br>";
+}
+?>
