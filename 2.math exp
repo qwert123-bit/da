@@ -13,7 +13,6 @@
 <script>
 function evaluateExpression() {
 try {
-<script>
 var expression = document.getElementById('expression').value;
 var result = eval(expression);
 document.getElementById('result').innerText = 'Result: ' + result;
